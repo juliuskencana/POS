@@ -1,0 +1,37 @@
+/* here you can put your own css to customize and override the theme */
+
+/***
+Rounded Portlets
+***/
+/*
+.portlet {
+	border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+	border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+	border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+.logo {
+	font-size: 20px;
+	color: #FFF;
+}
+
+.logo {
+	text-decoration: none;
+}
+
+.logo {
+	text-decoration: none;
+}
+
+.help-block {
+	border-color: #ebccd1;
+	color: #a94442;
+}

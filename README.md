@@ -20,7 +20,7 @@ Require:
 |8|:white_check_mark:|setting profile||
 |9|:white_check_mark:|Unit|add, list, pagination, search, detail, edit, delete|
 |9|:round_pushpin:|stock||
-|9|:warning:|transaction|list, search. belom: details|
+|9|:warning:|transaction|list, search, details. Belom : cancel transaction|
 
 
 Legends:

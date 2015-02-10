@@ -11,6 +11,7 @@ class Transactions extends CI_Controller {
 		}
 		$this->load->model('m_transaction');
 		$this->load->model('m_people');
+		$this->load->library('cart');
     }
 
 	public function index()
@@ -59,5 +60,43 @@ class Transactions extends CI_Controller {
 			$this->load->view('transactions/list');
 			$this->load->view('_components/footer');
 		}
+	}
+
+	public function details($transaction_id)
+	{
+		$data['transaction'] = $this->m_transaction->get_by('transaction_id', $transaction_id);
+		// var_dump($data['transaction']);
+		if ($data['transaction']->supplier_id != NULL) {
+			$data['people'] = $this->m_people->get_by('suppliers', 'supplier_id', $data['transaction']->supplier_id);
+		}elseif ($data['transaction']->customer_id != NULL) {
+			$data['people'] = $this->m_people->get_by('customers', 'customer_id', $data['transaction']->customer_id);
+		}
+		// var_dump($data['people']);
+		$data['records'] = $this->m_transaction->get_details_by('transaction_id', $transaction_id, 'where', 'result');
+
+		$data['title'] = "Transaction Detail";
+		$this->load->view('_components/header', $data);
+		$this->load->view('_components/menu_top');
+		$this->load->view('transactions/detail');
+		$this->load->view('_components/footer');
+	}
+
+	public function invoice($transaction_id)
+	{
+		$data['transaction'] = $this->m_transaction->get_by('transaction_id', $transaction_id);
+		// var_dump($data['transaction']);
+		if ($data['transaction']->supplier_id != NULL) {
+			$data['people'] = $this->m_people->get_by('suppliers', 'supplier_id', $data['transaction']->supplier_id);
+		}elseif ($data['transaction']->customer_id != NULL) {
+			$data['people'] = $this->m_people->get_by('customers', 'customer_id', $data['transaction']->customer_id);
+		}
+		// var_dump($data['people']);
+		$data['records'] = $this->m_transaction->get_details_by('transaction_id', $transaction_id, 'where', 'result');
+
+		$data['title'] = "Transaction Detail";
+		$this->load->view('_components/header', $data);
+		$this->load->view('_components/menu_top');
+		$this->load->view('transactions/invoice');
+		$this->load->view('_components/footer');
 	}
 }

@@ -117,7 +117,7 @@
 											</td>
 											<td><?= date('j F Y', strtotime($row->timestamp)); ?></td>
 											<td>
-												<a data-toggle="modal" href="#show-<?= $row->transaction_id ?>">Details</a>
+												<a data-toggle="modal" href="<?= site_url('transactions/details/' . $row->transaction_id) ?>">Details</a>
 											</td>
 										</tr>
 										<?php $i++; ?>

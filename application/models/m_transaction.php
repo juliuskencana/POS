@@ -64,6 +64,28 @@ class M_transaction extends CI_Model {
 		}
 	}
 
+	public function get_details_by($field, $value, $operator = 'where', $return_type = 'row') {
+
+		$this->db->select('items.name as item_name, units.name as unit_name, capital_price, sell_price, quantity');
+		$this->db->from('transaction_details');
+        $this->db->join('items', 'items.item_id = transaction_details.item_id');
+        $this->db->join('units', 'units.unit_id = transaction_details.unit_id');
+
+		$this->db->$operator($field, $value);
+
+		$query = $this->db->get();
+		
+		switch($return_type) {
+			case 'row':
+					return $query->row();
+				break;
+
+			case 'result':
+					return $query->result();
+				break;
+		}
+	}
+
 	public function get_all() {
 
 		$this->db->select('*');
@@ -93,7 +115,7 @@ class M_transaction extends CI_Model {
 			$this->db->limit($per_page, $page);
 		}
 
-		$this->db->order_by('timestamp');
+		$this->db->order_by('timestamp', 'desc');
 
 		$query = $this->db->get();
 
@@ -148,6 +170,7 @@ class M_transaction extends CI_Model {
 			}
 			$this->db->limit($per_page, $page);
 		}
+		$this->db->order_by('timestamp', 'desc');
 
 		$query = $this->db->get();
 

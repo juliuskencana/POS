@@ -55,7 +55,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="<?= site_url() ?>assets/admin/pages/css/profile.css" rel="stylesheet" type="text/css"/>
 <?php endif ?>
 
-<?php if ($c == 'receivings' && $f == 'add'): ?>
+<?php if ($c == 'receivings' || $c == 'stocks'): ?>
 
 	<!-- BEGIN PAGE LEVEL STYLES -->
 	<link rel="stylesheet" type="text/css" href="<?= site_url() ?>assets/global/plugins/bootstrap-select/bootstrap-select.min.css"/>

@@ -84,13 +84,11 @@ class Transactions extends CI_Controller {
 	public function invoice($transaction_id)
 	{
 		$data['transaction'] = $this->m_transaction->get_by('transaction_id', $transaction_id);
-		// var_dump($data['transaction']);
 		if ($data['transaction']->supplier_id != NULL) {
 			$data['people'] = $this->m_people->get_by('suppliers', 'supplier_id', $data['transaction']->supplier_id);
 		}elseif ($data['transaction']->customer_id != NULL) {
 			$data['people'] = $this->m_people->get_by('customers', 'customer_id', $data['transaction']->customer_id);
 		}
-		// var_dump($data['people']);
 		$data['records'] = $this->m_transaction->get_details_by('transaction_id', $transaction_id, 'where', 'result');
 
 		$data['title'] = "Transaction Detail";
@@ -98,5 +96,28 @@ class Transactions extends CI_Controller {
 		$this->load->view('_components/menu_top');
 		$this->load->view('transactions/invoice');
 		$this->load->view('_components/footer');
+	}
+
+	public function cancel($transaction_id)
+	{
+		$this->load->model('m_stock');
+		$transaction = $this->m_transaction->get_by('transaction_id', $transaction_id);
+		$details = $this->m_transaction->get_details_by('transaction_id', $transaction_id, 'where', 'result');
+
+		$this->m_transaction->cancel_transaction($transaction_id);
+		if ($transaction->transaction_type == 1) {
+			// sales
+			foreach ($details as $detail) {
+				$this->m_stock->update_plus($detail->quantity, $detail->item_id, $detail->unit_id);
+			}
+		}elseif ($transaction->transaction_type == 2) {
+			// receivings
+			foreach ($details as $detail) {
+				$this->m_stock->update_min($detail->quantity, $detail->item_id, $detail->unit_id);
+			}
+		}
+
+		$this->session->set_flashdata('success_cancel', 1);
+		redirect(site_url('transactions/details/' . $transaction_id));
 	}
 }

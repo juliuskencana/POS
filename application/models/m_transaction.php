@@ -66,7 +66,7 @@ class M_transaction extends CI_Model {
 
 	public function get_details_by($field, $value, $operator = 'where', $return_type = 'row') {
 
-		$this->db->select('items.name as item_name, units.name as unit_name, capital_price, sell_price, quantity');
+		$this->db->select('items.name as item_name, units.name as unit_name, capital_price, sell_price, quantity, units.unit_id as unit_id, items.item_id as item_id');
 		$this->db->from('transaction_details');
         $this->db->join('items', 'items.item_id = transaction_details.item_id');
         $this->db->join('units', 'units.unit_id = transaction_details.unit_id');
@@ -175,5 +175,17 @@ class M_transaction extends CI_Model {
 		$query = $this->db->get();
 
 		return $query->result();
+	}
+
+	public function cancel_transaction($transaction_id) {
+
+		$data = array(
+			'transaction_type' => 3,
+			'is_cancel' => 1,
+		);
+		
+		$this->db->where('transaction_id', $transaction_id);
+		$this->db->update('transactions', $data);
+
 	}
 }

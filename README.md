@@ -19,8 +19,8 @@ Require:
 |7|:white_check_mark:|Login||
 |8|:white_check_mark:|setting profile||
 |9|:white_check_mark:|Unit|add, list, pagination, search, detail, edit, delete|
-|9|:round_pushpin:|stock||
-|9|:warning:|transaction|list, search, details. Belom : cancel transaction|
+|9|:clock10:|stock|setting benefit|
+|9|:white_check_mark:|transaction|list, search, details, cancel transaction|
 
 
 Legends:

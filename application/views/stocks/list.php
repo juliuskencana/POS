@@ -6,7 +6,7 @@
 		<div class="container">
 			<!-- BEGIN PAGE TITLE -->
 			<div class="page-title">
-				<h1>Transactions</h1>
+				<h1>Stocks</h1>
 			</div>
 			<!-- END PAGE TITLE -->
 		</div>
@@ -21,7 +21,7 @@
 					<a href="<?= site_url('dashboard') ?>">Dashboard</a><i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
-					 Transactions
+					 Stocks
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
@@ -31,23 +31,27 @@
 					<!-- BEGIN SAMPLE TABLE PORTLET-->
 					<div class="portlet light">
 						<div class="portlet-title">
-							<form class="form-horizontal" role="form" action="" method="get">
+							<form class="form-horizontal" role="form" method="get">
 								<div class="form-body">
 									<div class="form-group">
-										<label class="col-md-2 control-label">Search</label>
+										<label class="col-md-4 control-label">Search</label>
 										<div class="col-md-2">
-											<select class="form-control" name="type">
-												<option value="1">Sales</option>
-												<option value="2">Receivings</option>
-												<option  value="3">Cancel</option>
+											<select class="form-control select2me" data-placeholder="Item name" name="item_id">
+												<option value=""></option>
+												<?php foreach ($items as $row): ?>
+													<option value="<?= $row->item_id ?>"><?= $row->name ?></option>
+												<?php endforeach ?>
 											</select>
+											<?php echo (form_error('item_name') != '') ? form_error('item_name', '<span class="help-block">', '</span>') : ''; ?>
 										</div>
-										<div class="col-md-4">
-											<div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-												<input type="text" class="form-control" name="from">
-												<span class="input-group-addon"> to </span>
-												<input type="text" class="form-control" name="to">
-											</div>
+										<div class="col-md-2">
+											<select class="form-control select2me" data-placeholder="Unit" name="unit_id">
+												<option value=""></option>
+												<?php foreach ($units as $row): ?>
+													<option value="<?= $row->unit_id ?>"><?= $row->name ?></option>
+												<?php endforeach ?>
+											</select>
+											<?php echo (form_error('unit_name') != '') ? form_error('unit_name', '<span class="help-block">', '</span>') : ''; ?>
 										</div>
 										<button type="submit" class="btn green"><i class="glyphicon glyphicon-ok"></i> Submit</button>
 									</div>
@@ -78,37 +82,40 @@
 								<thead>
 								<tr>
 									<th>#</th>
-									<th>Supplier/Customer name</th>
-									<th>Transaction Type</th>
-									<th>Transaction Date</th>
+									<th>Item Name</th>
+									<th>Unit Name</th>
+									<th>Capital Price</th>
+									<th>Benefit</th>
+									<th>Sell Price</th>
+									<th>Stock</th>
 									<th>Action</th>
 								</tr>
 								</thead>
 								<tbody>
 									<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
 									<?php foreach ($records as $row): ?>
-										<?php
-											if ($row->supplier_id != NULL) {
-												$name = $this->m_people->get_by('suppliers', 'supplier_id', $row->supplier_id);
-											}else{
-												$name = $this->m_people->get_by('customers', 'customer_id', $row->customer_id);
-											}
-										?>
 										<tr>
 											<td><?= $i ?></td>
-											<td><?= $name->name ?></td>
+											<td><?= $row->item_name ?></td>
+											<td><?= $row->unit_name ?></td>
+											<td>IDR <?= $this->cart->format_number($row->capital_price) ?></td>
 											<td>
-												<?php if ($row->transaction_type == 1){ ?>
-												<span class="label label-sm label-success">Sales</span>
-												<?php }elseif ($row->transaction_type == 2) { ?>
-												<span class="label label-sm label-info">Receivings</span>
-												<?php }elseif ($row->transaction_type == 3) { ?>
-												<span class="label label-sm label-danger">Cancel</span>
-												<?php } ?>
+												<?php if ($row->benefit == NULL || $row->benefit == 0): ?>
+													<span class="label label-sm label-danger">Not setting</span>
+												<?php else: ?>
+													<span class="label label-sm label-success"><?= $row->benefit ?> %</span>
+												<?php endif ?>
 											</td>
-											<td><?= date('j F Y', strtotime($row->timestamp)); ?></td>
 											<td>
-												<a data-toggle="modal" href="<?= site_url('transactions/details/' . $row->transaction_id) ?>">Details</a>
+												<?php if ($row->benefit == NULL || $row->benefit == 0): ?>
+													-
+												<?php else: ?>
+													IDR <?= $this->cart->format_number(round($row->capital_price * ($row->benefit/100))) ?>
+												<?php endif ?>
+											</td>
+											<td><?= $row->stock ?></td>
+											<td>
+												<a href="<?= site_url() ?>" class="btn btn-xs red margin-bottom-5"><i class="fa fa-warning"></i> Setting Benefit</a>
 											</td>
 										</tr>
 										<?php $i++; ?>

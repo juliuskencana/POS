@@ -29,6 +29,16 @@
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
+
+			<!-- INFORMATION START -->
+			<?php if($this->session->flashdata('success_cancel')) : ?>
+			<div class="alert alert-success">
+				<button class="close" data-close="alert"></button>
+				<span><b>Success!</b> Cancel Transaction</span>
+			</div>
+			<?php endif; ?>
+			<!-- INFORMATION END -->
+
 			<!-- BEGIN PAGE CONTENT INNER -->
 			<div class="row">
 				<div class="col-md-12">
@@ -152,7 +162,7 @@
 								<a href="<?= site_url('transactions/invoice/' . $transaction->transaction_id) ?>" class="btn btn-lg green margin-bottom-5">See Invoice</a>
 							<?php endif ?>
 							<?php if ($transaction->transaction_type == 1 || $transaction->transaction_type == 2): ?>
-								<a href="<?= site_url('transactions/invoice/' . $transaction->transaction_id) ?>" class="btn btn-lg red margin-bottom-5">Cancel Transaction</a>
+								<a href="<?= site_url('transactions/cancel/' . $transaction->transaction_id) ?>" class="btn btn-lg red margin-bottom-5">Cancel Transaction</a>
 							<?php endif ?>
 						</div>
 					</div>

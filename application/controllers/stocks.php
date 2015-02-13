@@ -78,5 +78,6 @@ class Stocks extends CI_Controller {
 		$this->m_stock->setting_profit($profit, $p['item_id'], $p['unit_id']);
 
 		$this->session->set_flashdata('success_setting', 1);
+		redirect(site_url('stocks'));
 	}
 }

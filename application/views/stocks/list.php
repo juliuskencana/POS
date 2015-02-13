@@ -19,29 +19,29 @@
 				<div class="modal fade" id="show-<?= $row->stock_id ?>" tabindex="-1" role="basic" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
+							<form action="<?= site_url('stocks/setting_profit') ?>" method="post">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 									<h4 class="modal-title">Setting profit</h4>
 								</div>
-								<div class="modal-body">
+								<div class="modal-body clearfix">
 									<div class="form-group">
 										<label class="col-md-3 control-label">Profit</label>
 										<div class="col-md-4">
-											<div id="slider-range-min" class="slider bg-yellow">
+											<div class="input-group">
+												<input type="text" class="form-control" name="profit" placeholder="Profit">
+												<span class="input-group-addon bootstrap-touchspin-postfix">%</span>
 											</div>
-											<div class="slider-value">
-												 Profit: <span class="slider-value" id="slider-range-min-amount">
-												</span>
-											</div>
-											<input type="hidden" id="unit_id" value="<?= $row->unit_id ?>">
-											<input type="hidden" id="item_id" value="<?= $row->item_id ?>">
+											<input type="hidden" name="unit_id" value="<?= $row->unit_id ?>">
+											<input type="hidden" name="item_id" value="<?= $row->item_id ?>">
 										</div>
 									</div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn default" data-dismiss="modal">Close</button>
-									<button type="button" class="btn blue" id="save-setting">Save changes</button>
+									<button type="submit" class="btn blue" id="save-setting">Save changes</button>
 								</div>
+							</form>
 						</div>
 						<!-- /.modal-content -->
 					</div>

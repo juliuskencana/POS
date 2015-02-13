@@ -191,7 +191,6 @@
 						</ul>
 					</li>
 
-					<li><a href="#">Report</a></li>
 					<!-- begin: mega menu with custom content -->
 					<li class="menu-dropdown mega-menu-dropdown mega-menu-full hide">
 						<a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">

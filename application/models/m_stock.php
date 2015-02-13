@@ -29,7 +29,7 @@ class M_stock extends CI_Model {
 			'item_id' => $p['name'],
 			'unit_id' => $p['options']['unit_name'],
 			'capital_price' => $p['price'],
-			'benefit' => 0,
+			'profit' => 0,
 			'stock' => $p['qty']
 		);
 

@@ -10,7 +10,7 @@ Require:
 ------------------------
 |#  |Status              |Headline|Description|
 |:-:|:----:              |:-------|:----------|
-|1|:round_pushpin:|Sales||
+|1|:white_check_mark:|Sales||
 |2|:white_check_mark:|Items|add, list, pagination, search, detail, edit, delete|
 |3|:white_check_mark:|Receivings||
 |4|:white_check_mark:|Customer|add, list, pagination, search, detail, edit, delete|
@@ -19,8 +19,9 @@ Require:
 |7|:white_check_mark:|Login||
 |8|:white_check_mark:|setting profile||
 |9|:white_check_mark:|Unit|add, list, pagination, search, detail, edit, delete|
-|9|:white_check_mark:|stock||
-|9|:white_check_mark:|transaction|list, search, details, cancel transaction|
+|10|:white_check_mark:|stock||
+|11|:white_check_mark:|transaction|list, search, details, cancel transaction|
+|12|:round_pushpin:|dashboard|statistik|
 
 
 Legends:

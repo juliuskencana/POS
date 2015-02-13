@@ -21,7 +21,7 @@
 					<a href="<?= site_url('dashboard') ?>">Dashboard</a><i class="fa fa-circle"></i>
 				</li>
 				<li>
-					<a href="<?= site_url() ?>">Receivings</a>
+					<a href="<?= site_url('receivings') ?>">Receivings</a>
 					<i class="fa fa-circle"></i>
 				</li>
 				<li class="active">

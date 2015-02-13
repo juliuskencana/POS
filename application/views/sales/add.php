@@ -21,7 +21,7 @@
 					<a href="<?= site_url('dashboard') ?>">Dashboard</a><i class="fa fa-circle"></i>
 				</li>
 				<li>
-					<a href="#">Sales</a>
+					<a href="<?= site_url('sales') ?>">Sales</a>
 					<i class="fa fa-circle"></i>
 				</li>
 				<li class="active">
@@ -32,18 +32,75 @@
 			<!-- BEGIN PAGE CONTENT INNER -->
 			<div class="row">
 				<div class="col-md-12">
+					<?php if(validation_errors()) : ?>
+						<div class="alert alert-danger">
+							<button class="close" data-close="alert"></button>
+							<span><b>Error!</b> Please check your input. </span>
+						</div>
+					<?php endif; ?>
+					<?php if($this->session->flashdata('error_add')) : ?>
+						<div class="alert alert-danger">
+							<button class="close" data-close="alert"></button>
+							<span><b>Error!</b> Please check your input. </span>
+						</div>
+					<?php endif; ?>
+					<?php if($this->session->flashdata('error_empty_cart')) : ?>
+						<div class="alert alert-danger">
+							<button class="close" data-close="alert"></button>
+							<span><b>Error!</b> Please insert your items first. </span>
+						</div>
+					<?php endif; ?>
+					<?php if($this->session->flashdata('success_sales')) : ?>
+					<div class="alert alert-success">
+						<button class="close" data-close="alert"></button>
+						<span><b>Success!</b> Add sales</span>
+					</div>
+					<?php endif; ?>
+					<?php if($this->session->flashdata('error_not_set_stock')) : ?>
+					<div class="alert alert-danger">
+						<button class="close" data-close="alert"></button>
+						<span><b>Error!</b> Please check your stock</span>
+					</div>
+					<?php endif; ?>
+					<?php if($this->session->flashdata('error_profit_not_set')) : ?>
+					<div class="alert alert-danger">
+						<button class="close" data-close="alert"></button>
+						<span><b>Error!</b> Your profit not set</span>
+					</div>
+					<?php endif; ?>
+					<?php if($this->session->flashdata('error_stock_not_enough')) : ?>
+					<div class="alert alert-danger">
+						<button class="close" data-close="alert"></button>
+						<span><b>Error!</b> Your stock not enough</span>
+					</div>
+					<?php endif; ?>
 					<!-- BEGIN SAMPLE TABLE PORTLET-->
 					<div class="portlet light">
 						<div class="portlet-title">
-							<form class="form-horizontal" role="form">
+							<form class="form-horizontal" role="form" action="" method="post">
 								<div class="form-body">
 									<div class="form-group">
-										<label class="col-md-2 control-label">Search</label>
 										<div class="col-md-2">
-											<input type="text" class="form-control" placeholder="Nama barang">
+											<select class="form-control select2me" data-placeholder="Item name" name="item_name">
+												<option value=""></option>
+												<?php foreach ($items as $row): ?>
+													<option value="<?= $row->item_id ?>"><?= $row->name ?></option>
+												<?php endforeach ?>
+											</select>
+											<?php echo (form_error('item_name') != '') ? form_error('item_name', '<span class="help-block">', '</span>') : ''; ?>
 										</div>
 										<div class="col-md-2">
-											<input type="text" class="form-control" placeholder="Satuan">
+											<select class="form-control select2me" data-placeholder="Unit" name="unit_name">
+												<option value=""></option>
+												<?php foreach ($units as $row): ?>
+													<option value="<?= $row->unit_id ?>"><?= $row->name ?></option>
+												<?php endforeach ?>
+											</select>
+											<?php echo (form_error('unit_name') != '') ? form_error('unit_name', '<span class="help-block">', '</span>') : ''; ?>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" name="qty" placeholder="Quantity">
+											<?php echo (form_error('qty') != '') ? form_error('qty', '<span class="help-block">', '</span>') : ''; ?>
 										</div>
 										<button type="submit" class="btn green"><i class="glyphicon glyphicon-ok"></i> Add</button>
 									</div>
@@ -59,99 +116,94 @@
 										 #
 									</th>
 									<th>
-										 First Name
+										Item Name
 									</th>
 									<th>
-										 Last Name
+										Unit
 									</th>
 									<th>
-										 Username
+										Cost
 									</th>
 									<th>
-										 Status
+										Quantity
+									</th>
+									<th>
+										Total
 									</th>
 								</tr>
 								</thead>
 								<tbody>
-								<tr>
-									<td>
-										 1
-									</td>
-									<td>
-										 Mark
-									</td>
-									<td>
-										 Otto
-									</td>
-									<td>
-										 makr124
-									</td>
-									<td>
-										<span class="label label-sm label-success">
-										Approved </span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										 2
-									</td>
-									<td>
-										 Jacob
-									</td>
-									<td>
-										 Nilson
-									</td>
-									<td>
-										 jac123
-									</td>
-									<td>
-										<span class="label label-sm label-info">
-										Pending </span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										 3
-									</td>
-									<td>
-										 Larry
-									</td>
-									<td>
-										 Cooper
-									</td>
-									<td>
-										 lar
-									</td>
-									<td>
-										<span class="label label-sm label-warning">
-										Suspended </span>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										 4
-									</td>
-									<td>
-										 Sandy
-									</td>
-									<td>
-										 Lim
-									</td>
-									<td>
-										 sanlim
-									</td>
-									<td>
-										<span class="label label-sm label-danger">
-										Blocked </span>
-									</td>
-								</tr>
+									<?php if (!empty($this->cart->contents())): ?>
+										<?php $i = 1; ?>
+										<?php foreach ($this->cart->contents() as $items): ?>
+										<?php
+											$item_cart = $this->m_item->get_by('item_id', $items['name']);
+											$unit_cart = $this->m_unit->get_by('unit_id', $items['options']['unit_name']);
+										?>
+											<tr>
+												<td>
+													<?= $i; ?>
+												</td>
+												<td>
+													<?= $item_cart->name ?>
+												</td>
+												<td>
+													<?= $unit_cart->name ?>
+												</td>
+												<td>
+													IDR <?= $this->cart->format_number($items['price']) ?>
+												</td>
+												<td>
+													<?= $items['qty'] ?>
+												</td>
+												<td>
+													IDR <?php echo $this->cart->format_number($items['subtotal']); ?>
+												</td>
+											</tr>
+											<?php $i++; ?>
+										<?php endforeach; ?>
+											<tr>
+												<td>
+												</td>
+												<td>
+												</td>
+												<td>
+												</td>
+												<td>
+												</td>
+												<th>
+													TOTAL
+												</th>
+												<td>
+													IDR <?php echo $this->cart->format_number($this->cart->total()); ?>
+												</td>
+											</tr>
+									<?php endif ?>
 								</tbody>
 								</table>
 							</div>
 						</div>
-
-						<a href="<?= site_url('sales/invoice') ?>" type="submit" class="btn green"><i class="glyphicon glyphicon-ok"></i> Submit</a>
-					</div>
+						
+							<form class="form-horizontal" role="form" method="post" action="<?= site_url('sales/add_cart') ?>">
+								<div class="form-body">
+									<div class="form-group">
+										<div class="col-md-3">
+											<select class="form-control select2me" data-placeholder="Customer name" name="customer_id">
+												<option value=""></option>
+												<?php foreach ($customer as $row): ?>
+													<option value="<?= $row->customer_id ?>"><?= $row->name ?></option>
+												<?php endforeach ?>
+											</select>
+											<?php if ($this->session->flashdata('error_add')){ ?>
+												<span class="help-block">Customer name is required.</span>
+											<?php } ?>
+										</div>
+									</div>
+								</div>
+								<input type="submit" class="btn green"></input>
+								<a href="<?= site_url('sales/clear_cart'); ?>" type="submit" class="btn red-sunglo"><i class="glyphicon glyphicon-remove"></i> Clear items</a>
+							</form>
+						</div>
 					<!-- END SAMPLE TABLE PORTLET-->
 				</div>
 			</div>
@@ -161,3 +213,7 @@
 	<!-- END PAGE CONTENT -->
 </div>
 <!-- END PAGE CONTAINER -->
+
+<script>
+
+</script>

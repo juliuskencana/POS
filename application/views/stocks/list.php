@@ -152,10 +152,16 @@
 												<?php if ($row->profit == NULL || $row->profit == 0): ?>
 													-
 												<?php else: ?>
-													IDR <?= $this->cart->format_number(round($row->capital_price * ($row->profit/100))) ?>
+													IDR <?= $this->cart->format_number($row->capital_price + (round($row->capital_price * ($row->profit/100)))) ?>
 												<?php endif ?>
 											</td>
-											<td><?= $row->stock ?></td>
+											<td>
+												<?php if ($row->stock != 0): ?>
+												<?= $row->stock ?>
+												<?php else: ?>
+												<span class="btn btn-xs red"><i class="fa fa-warning"></i> <?= $row->stock ?></span>
+												<?php endif ?>
+											</td>
 											<td>
 												<a data-toggle="modal" href="#show-<?= $row->stock_id ?>" class="btn btn-xs red margin-bottom-5"><i class="fa fa-warning"></i> Setting Profit</a>
 											</td>

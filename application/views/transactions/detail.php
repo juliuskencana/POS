@@ -92,13 +92,12 @@
 													case '2':
 														$type = 'Receivings';
 														break;
-													
-													case '3':
-														$type = 'Cancel';
-														break;
 												}
 											?>
 											<?= $type; ?>
+											<?php if ($transaction->is_cancel == 1): ?>
+												<span class="label label-sm label-danger">[CANCEL]</span>
+											<?php endif ?>
 										</td>
 									</tr>
 									<tr>
@@ -131,11 +130,29 @@
 												<td><?= $row->item_name ?></td>
 												<td><?= $row->unit_name ?></td>
 												<td><?= $row->quantity ?></td>
-												<td>IDR <?= $this->cart->format_number($row->capital_price) ?></td>
-												<td>IDR <?= $this->cart->format_number($row->capital_price * $row->quantity) ?></td>
+												<td>IDR 
+													<?php if ($transaction->transaction_type == 1): ?>
+														<?= $this->cart->format_number($row->sell_price) ?>
+													<?php else: ?>
+														<?= $this->cart->format_number($row->capital_price) ?>
+													<?php endif ?>
+												</td>
+												<td>IDR 
+													<?php if ($transaction->transaction_type == 1): ?>
+														<?= $this->cart->format_number($row->sell_price * $row->quantity) ?>
+													<?php else: ?>
+														<?= $this->cart->format_number($row->capital_price * $row->quantity) ?>
+													<?php endif ?>
+												</td>
 											</tr>
 											<?php $i++; ?>
-											<?php $total_price = $total_price + ($row->capital_price * $row->quantity); ?>
+											<?php 
+												if ($transaction->transaction_type == 1) {
+													$total_price = $total_price + ($row->sell_price * $row->quantity);
+												}else{
+													$total_price = $total_price + ($row->capital_price * $row->quantity);
+												}
+											?>
 										<?php endforeach ?>
 										<?php
 										?>
@@ -161,7 +178,7 @@
 							<?php if ($transaction->transaction_type == 1): ?>
 								<a href="<?= site_url('transactions/invoice/' . $transaction->transaction_id) ?>" class="btn btn-lg green margin-bottom-5">See Invoice</a>
 							<?php endif ?>
-							<?php if ($transaction->transaction_type == 1 || $transaction->transaction_type == 2): ?>
+							<?php if (($transaction->transaction_type == 1 || $transaction->transaction_type == 2) && $transaction->is_cancel != 1): ?>
 								<a href="<?= site_url('transactions/cancel/' . $transaction->transaction_id) ?>" class="btn btn-lg red margin-bottom-5">Cancel Transaction</a>
 							<?php endif ?>
 						</div>

@@ -52,7 +52,7 @@
 <!-- END PAGE list.php -->
 <?php endif ?>
 
-<?php if ($c == 'receivings' || $c == 'stocks'): ?>
+<?php if($c == 'receivings' || $c == 'sales' || $c == 'stocks'): ?> 
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<script type="text/javascript" src="<?= site_url() ?>assets/global/plugins/bootstrap-select/bootstrap-select.min.js"></script>
 	<script type="text/javascript" src="<?= site_url() ?>assets/global/plugins/select2/select2.min.js"></script>
@@ -79,7 +79,7 @@ jQuery(document).ready(function() {
 	<?php if ($c == 'transactions'): ?>
     ComponentsPickers.init(); // list.php
 	<?php endif; ?>
-	<?php if($c == 'receivings' || $c == 'stocks'): ?>      
+	<?php if($c == 'receivings' || $c == 'sales' || $c == 'stocks'): ?>      
     ComponentsDropdowns.init();
 	<?php endif; ?>
 	<?php if($c == 'stocks'): ?>    

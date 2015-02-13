@@ -180,7 +180,6 @@ class M_transaction extends CI_Model {
 	public function cancel_transaction($transaction_id) {
 
 		$data = array(
-			'transaction_type' => 3,
 			'is_cancel' => 1,
 		);
 		

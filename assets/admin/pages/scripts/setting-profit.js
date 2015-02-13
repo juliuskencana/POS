@@ -1,5 +1,5 @@
-// var SITE = {URL: 'http://ayonongkrong.com/beta/'};
-var SITE = {URL: 'http://localhost/projects/POS/'};
+var SITE = {URL: 'http://ayonongkrong.com/pos/'};
+// var SITE = {URL: 'http://localhost/projects/POS/'};
 
 $("#save-setting").click(function () {
 	var profit = $("#slider-range-min-amount").text()

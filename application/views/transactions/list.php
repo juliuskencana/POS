@@ -98,12 +98,12 @@
 											<td><?= $i ?></td>
 											<td><?= $name->name ?></td>
 											<td>
-												<?php if ($row->transaction_type == 1){ ?>
-												<span class="label label-sm label-success">Sales</span>
+												<?php if ($row->is_cancel == 1){ ?>
+												<span class="label label-sm label-danger">Cancel</span>
 												<?php }elseif ($row->transaction_type == 2) { ?>
 												<span class="label label-sm label-info">Receivings</span>
-												<?php }elseif ($row->transaction_type == 3) { ?>
-												<span class="label label-sm label-danger">Cancel</span>
+												<?php }elseif ($row->transaction_type == 1) { ?>
+												<span class="label label-sm label-success">Sales</span>
 												<?php } ?>
 											</td>
 											<td><?= date('j F Y', strtotime($row->timestamp)); ?></td>

@@ -64,15 +64,15 @@ var ComponentsjQueryUISliders = function () {
             $("#slider-range-min").slider({
                 isRTL: Metronic.isRTL(),
                 range: "min",
-                value: 37,
+                value: 10,
                 min: 1,
-                max: 700,
+                max: 100,
                 slide: function (event, ui) {
-                    $("#slider-range-min-amount").text("$" + ui.value);
+                    $("#slider-range-min-amount").text(ui.value + "%");
                 }
             });
 
-            $("#slider-range-min-amount").text("$" + $("#slider-range-min").slider("value"));
+            $("#slider-range-min-amount").text($("#slider-range-min").slider("value") + "%");
 
             // vertical slider
             $("#slider-vertical").slider({

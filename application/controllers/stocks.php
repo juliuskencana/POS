@@ -70,4 +70,13 @@ class Stocks extends CI_Controller {
 			$this->load->view('_components/footer');
 		}
 	}
+
+	public function setting_profit()
+	{
+		$p = $this->input->post();
+		$profit = rtrim($p['profit'], "%");
+		$this->m_stock->setting_profit($profit, $p['item_id'], $p['unit_id']);
+
+		$this->session->set_flashdata('success_setting', 1);
+	}
 }

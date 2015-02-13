@@ -147,5 +147,17 @@ class M_stock extends CI_Model {
 
 		return $query->result();
 	}
+
+	public function setting_profit($profit, $item_id, $unit_id) {
+
+		$this->db->set('profit', $profit);
+
+		$this->db->where('unit_id', $unit_id);
+		$this->db->where('item_id', $item_id);
+
+		$this->db->update('stocks', $data);
+
+		return $this->db->insert_id(); 
+	}
 }
 

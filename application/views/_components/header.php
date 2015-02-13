@@ -63,6 +63,9 @@ License: You must have a valid license purchased only from themeforest(the above
 	<link rel="stylesheet" type="text/css" href="<?= site_url() ?>assets/global/plugins/jquery-multi-select/css/multi-select.css"/>
 	<!-- BEGIN THEME STYLES -->
 <?php endif ?>
+<?php if ($c == 'stocks'): ?>
+<link href="<?= site_url() ?>assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css" rel="stylesheet"/>
+<?php endif ?>
 
 <!-- BEGIN THEME STYLES -->
 <link href="<?= site_url() ?>assets/global/css/components.css" rel="stylesheet" type="text/css">

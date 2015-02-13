@@ -65,7 +65,10 @@
 	<script src="<?= site_url() ?>assets/admin/pages/scripts/components-dropdowns.js"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 <?php endif ?>
-
+<?php if($c == 'stocks'): ?>    
+	<script src="<?= site_url() ?>assets/admin/pages/scripts/components-jqueryui-sliders.js"></script>
+	<script src="<?= site_url() ?>assets/admin/pages/scripts/setting-profit.js"></script>
+<?php endif ?>
 <script>
 jQuery(document).ready(function() {       
    // initiate layout and plugins
@@ -78,6 +81,9 @@ jQuery(document).ready(function() {
 	<?php endif; ?>
 	<?php if($c == 'receivings' || $c == 'stocks'): ?>      
     ComponentsDropdowns.init();
+	<?php endif; ?>
+	<?php if($c == 'stocks'): ?>    
+    ComponentsjQueryUISliders.init();
 	<?php endif; ?>
 });
 

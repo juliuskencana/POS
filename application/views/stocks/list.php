@@ -15,6 +15,40 @@
 	<!-- BEGIN PAGE CONTENT -->
 	<div class="page-content">
 		<div class="container">
+			<?php foreach ($records as $row): ?>
+				<div class="modal fade" id="show-<?= $row->stock_id ?>" tabindex="-1" role="basic" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+									<h4 class="modal-title">Setting profit</h4>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<label class="col-md-3 control-label">Profit</label>
+										<div class="col-md-4">
+											<div id="slider-range-min" class="slider bg-yellow">
+											</div>
+											<div class="slider-value">
+												 Profit: <span class="slider-value" id="slider-range-min-amount">
+												</span>
+											</div>
+											<input type="hidden" id="unit_id" value="<?= $row->unit_id ?>">
+											<input type="hidden" id="item_id" value="<?= $row->item_id ?>">
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn blue" id="save-setting">Save changes</button>
+								</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+			<?php endforeach ?>
 			<!-- BEGIN PAGE BREADCRUMB -->
 			<ul class="page-breadcrumb breadcrumb">
 				<li>
@@ -25,6 +59,14 @@
 				</li>
 			</ul>
 			<!-- END PAGE BREADCRUMB -->
+			<!-- INFORMATION START -->
+			<?php if($this->session->flashdata('success_setting')) : ?>
+			<div class="alert alert-success">
+				<button class="close" data-close="alert"></button>
+				<span><b>Success!</b> Setting profit</span>
+			</div>
+			<?php endif; ?>
+			<!-- INFORMATION END -->
 			<!-- BEGIN PAGE CONTENT INNER -->
 			<div class="row">
 				<div class="col-md-12">
@@ -85,7 +127,7 @@
 									<th>Item Name</th>
 									<th>Unit Name</th>
 									<th>Capital Price</th>
-									<th>Benefit</th>
+									<th>Profit</th>
 									<th>Sell Price</th>
 									<th>Stock</th>
 									<th>Action</th>
@@ -100,22 +142,22 @@
 											<td><?= $row->unit_name ?></td>
 											<td>IDR <?= $this->cart->format_number($row->capital_price) ?></td>
 											<td>
-												<?php if ($row->benefit == NULL || $row->benefit == 0): ?>
+												<?php if ($row->profit == NULL || $row->profit == 0): ?>
 													<span class="label label-sm label-danger">Not setting</span>
 												<?php else: ?>
-													<span class="label label-sm label-success"><?= $row->benefit ?> %</span>
+													<span class="label label-sm label-success"><?= $row->profit ?> %</span>
 												<?php endif ?>
 											</td>
 											<td>
-												<?php if ($row->benefit == NULL || $row->benefit == 0): ?>
+												<?php if ($row->profit == NULL || $row->profit == 0): ?>
 													-
 												<?php else: ?>
-													IDR <?= $this->cart->format_number(round($row->capital_price * ($row->benefit/100))) ?>
+													IDR <?= $this->cart->format_number(round($row->capital_price * ($row->profit/100))) ?>
 												<?php endif ?>
 											</td>
 											<td><?= $row->stock ?></td>
 											<td>
-												<a href="<?= site_url() ?>" class="btn btn-xs red margin-bottom-5"><i class="fa fa-warning"></i> Setting Benefit</a>
+												<a data-toggle="modal" href="#show-<?= $row->stock_id ?>" class="btn btn-xs red margin-bottom-5"><i class="fa fa-warning"></i> Setting Profit</a>
 											</td>
 										</tr>
 										<?php $i++; ?>

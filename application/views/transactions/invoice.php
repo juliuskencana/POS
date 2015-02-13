@@ -98,11 +98,29 @@
 											<td><?= $row->item_name ?></td>
 											<td class="hidden-480"><?= $row->unit_name ?></td>
 											<td class="hidden-480"><?= $row->quantity ?></td>
-											<td class="hidden-480">IDR <?= $this->cart->format_number($row->capital_price) ?></td>
-											<td class="hidden-480">IDR <?= $this->cart->format_number($row->capital_price * $row->quantity) ?></td>
+											<td class="hidden-480">IDR 
+												<?php if ($transaction->transaction_type == 1): ?>
+													<?= $this->cart->format_number($row->sell_price) ?>
+												<?php else: ?>
+													<?= $this->cart->format_number($row->capital_price) ?>
+												<?php endif ?>
+											</td>
+											<td class="hidden-480">IDR 
+												<?php if ($transaction->transaction_type == 1): ?>
+													<?= $this->cart->format_number($row->sell_price * $row->quantity) ?>
+												<?php else: ?>
+													<?= $this->cart->format_number($row->capital_price * $row->quantity) ?>
+												<?php endif ?>
+											</td>
 										</tr>
 										<?php $i++; ?>
-										<?php $total_price = $total_price + ($row->capital_price * $row->quantity); ?>
+										<?php 
+											if ($transaction->transaction_type == 1) {
+												$total_price = $total_price + ($row->sell_price * $row->quantity);
+											}else{
+												$total_price = $total_price + ($row->capital_price * $row->quantity);
+											}
+										?>
 									<?php endforeach ?>
 								</tbody>
 								</table>

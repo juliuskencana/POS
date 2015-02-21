@@ -35,7 +35,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	$c = $this->uri->segment(1);
 	$f = $this->uri->segment(2);
 ?>
-<?php if ($c == 'transactions'): ?>
+<?php if ($c == 'transactions' || $c == 'dashboard'): ?>
 <!-- LIST.php -->
 <link rel="stylesheet" type="text/css" href="<?= site_url() ?>assets/global/plugins/clockface/css/clockface.css"/>
 <link rel="stylesheet" type="text/css" href="<?= site_url() ?>assets/global/plugins/bootstrap-datepicker/css/datepicker3.css"/>

@@ -34,7 +34,7 @@
 <script src="<?= site_url() ?>assets/admin/layout3/scripts/demo.js" type="text/javascript"></script>
 
 
-<?php if ($c == 'transactions'): ?>
+<?php if ($c == 'transactions' || $c == 'dashboard'): ?>
 <!-- BEGIN PAGE list.php -->
 <script type="text/javascript" src="<?= site_url() ?>assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="<?= site_url() ?>assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
@@ -67,8 +67,8 @@
 <?php endif ?>
 <?php if($c == 'stocks'): ?>    
 	<script src="<?= site_url() ?>assets/admin/pages/scripts/components-jqueryui-sliders.js"></script>
-	<script src="<?= site_url() ?>assets/admin/pages/scripts/setting-profit.js"></script>
 <?php endif ?>
+	<script src="<?= site_url() ?>assets/admin/pages/scripts/excel_export.js"></script>
 <script>
 jQuery(document).ready(function() {       
    // initiate layout and plugins
@@ -76,7 +76,7 @@ jQuery(document).ready(function() {
 	Layout.init(); // init current layout
 	Demo.init(); // init demo features
 
-	<?php if ($c == 'transactions'): ?>
+	<?php if ($c == 'transactions' || $c == 'dashboard'): ?>
     ComponentsPickers.init(); // list.php
 	<?php endif; ?>
 	<?php if($c == 'receivings' || $c == 'sales' || $c == 'stocks'): ?>      

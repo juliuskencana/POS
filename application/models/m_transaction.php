@@ -177,6 +177,33 @@ class M_transaction extends CI_Model {
 		return $query->result();
 	}
 
+	public function get_all_list_search($g) {
+		
+		$this->db->select('*');
+		$this->db->from('transactions');
+		$this->db->where('transaction_type', $g['type']);
+
+		
+		if ($g['from'] != '' && $g['to'] != '') {
+			$from = date("Y-m-d H:i:s", strtotime($g['from']));
+			$to = date("Y-m-d H:i:s", strtotime($g['to']));
+			$this->db->where('timestamp >', $from);
+			$this->db->where('timestamp <', $to);
+		}elseif ($g['from'] != '') {
+			$from = date("Y-m-d H:i:s", strtotime($g['from']));
+			$this->db->where('timestamp >', $from);
+		}elseif ($g['to'] != '') {
+			$to = date("Y-m-d H:i:s", strtotime($g['to']));
+			$this->db->where('timestamp <', $to);
+		}
+		
+		$this->db->order_by('timestamp', 'desc');
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
 	public function cancel_transaction($transaction_id) {
 
 		$data = array(

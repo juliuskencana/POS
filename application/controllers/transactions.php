@@ -32,6 +32,7 @@ class Transactions extends CI_Controller {
 			$data['records'] = $this->m_transaction->get_list($this->uri->segment(3), $config['per_page']);
 
 			$data['pagination'] = $this->pagination->create_links();
+			$data['excel'] = $this->m_transaction->get_all();
 
 			$this->load->view('_components/header', $data);
 			$this->load->view('_components/menu_top');
@@ -54,6 +55,7 @@ class Transactions extends CI_Controller {
 			$data['records'] = $this->m_transaction->get_list_search($this->uri->segment(3), $config['per_page'], $g);
 
 			$data['pagination'] = $this->pagination->create_links();
+			$data['excel'] = $this->m_transaction->get_all_list_search($g);
 
 			$this->load->view('_components/header', $data);
 			$this->load->view('_components/menu_top');

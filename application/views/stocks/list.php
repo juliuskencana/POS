@@ -111,7 +111,7 @@
 									</a>
 									<ul class="dropdown-menu pull-right">
 										<li>
-											<a href="javascript:;">
+											<a download="stocks_report.xls" href="#" onclick="return ExcellentExport.excel(this, 'datatable', 'Report');">
 											Export to Excel </a>
 										</li>
 									</ul>
@@ -121,54 +121,54 @@
 						<div class="portlet-body">
 							<div class="table-scrollable">
 								<table class="table table-hover">
-								<thead>
-								<tr>
-									<th>#</th>
-									<th>Item Name</th>
-									<th>Unit Name</th>
-									<th>Capital Price</th>
-									<th>Profit</th>
-									<th>Sell Price</th>
-									<th>Stock</th>
-									<th>Action</th>
-								</tr>
-								</thead>
-								<tbody>
-									<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
-									<?php foreach ($records as $row): ?>
-										<tr>
-											<td><?= $i ?></td>
-											<td><?= $row->item_name ?></td>
-											<td><?= $row->unit_name ?></td>
-											<td>IDR <?= $this->cart->format_number($row->capital_price) ?></td>
-											<td>
-												<?php if ($row->profit == NULL || $row->profit == 0): ?>
-													<span class="label label-sm label-danger">Not setting</span>
-												<?php else: ?>
-													<span class="label label-sm label-success"><?= $row->profit ?> %</span>
-												<?php endif ?>
-											</td>
-											<td>
-												<?php if ($row->profit == NULL || $row->profit == 0): ?>
-													-
-												<?php else: ?>
-													IDR <?= $this->cart->format_number($row->capital_price + (round($row->capital_price * ($row->profit/100)))) ?>
-												<?php endif ?>
-											</td>
-											<td>
-												<?php if ($row->stock != 0): ?>
-												<?= $row->stock ?>
-												<?php else: ?>
-												<span class="btn btn-xs red"><i class="fa fa-warning"></i> <?= $row->stock ?></span>
-												<?php endif ?>
-											</td>
-											<td>
-												<a data-toggle="modal" href="#show-<?= $row->stock_id ?>" class="btn btn-xs red margin-bottom-5"><i class="fa fa-warning"></i> Setting Profit</a>
-											</td>
-										</tr>
-										<?php $i++; ?>
-									<?php endforeach ?>
-								</tbody>
+									<thead>
+									<tr>
+										<th>#</th>
+										<th>Item Name</th>
+										<th>Unit Name</th>
+										<th>Capital Price</th>
+										<th>Profit</th>
+										<th>Sell Price</th>
+										<th>Stock</th>
+										<th>Action</th>
+									</tr>
+									</thead>
+									<tbody>
+										<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
+										<?php foreach ($records as $row): ?>
+											<tr>
+												<td><?= $i ?></td>
+												<td><?= $row->item_name ?></td>
+												<td><?= $row->unit_name ?></td>
+												<td>IDR <?= $this->cart->format_number($row->capital_price) ?></td>
+												<td>
+													<?php if ($row->profit == NULL || $row->profit == 0): ?>
+														<span class="label label-sm label-danger">Not setting</span>
+													<?php else: ?>
+														<span class="label label-sm label-success"><?= $row->profit ?> %</span>
+													<?php endif ?>
+												</td>
+												<td>
+													<?php if ($row->profit == NULL || $row->profit == 0): ?>
+														-
+													<?php else: ?>
+														IDR <?= $this->cart->format_number($row->capital_price + (round($row->capital_price * ($row->profit/100)))) ?>
+													<?php endif ?>
+												</td>
+												<td>
+													<?php if ($row->stock != 0): ?>
+													<?= $row->stock ?>
+													<?php else: ?>
+													<span class="btn btn-xs red"><i class="fa fa-warning"></i> <?= $row->stock ?></span>
+													<?php endif ?>
+												</td>
+												<td>
+													<a data-toggle="modal" href="#show-<?= $row->stock_id ?>" class="btn btn-xs red margin-bottom-5"><i class="fa fa-warning"></i> Setting Profit</a>
+												</td>
+											</tr>
+											<?php $i++; ?>
+										<?php endforeach ?>
+									</tbody>
 								</table>
 							</div>
 						</div>
@@ -183,3 +183,51 @@
 	<!-- END PAGE CONTENT -->
 </div>
 <!-- END PAGE CONTAINER -->
+
+
+<table class="table table-hover" id="datatable" style="display:none;">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Item Name</th>
+		<th>Unit Name</th>
+		<th>Capital Price</th>
+		<th>Profit</th>
+		<th>Sell Price</th>
+		<th>Stock</th>
+	</tr>
+	</thead>
+	<tbody>
+		<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
+		<?php foreach ($excel as $row): ?>
+			<tr>
+				<td><?= $i ?></td>
+				<td><?= $row->item_name ?></td>
+				<td><?= $row->unit_name ?></td>
+				<td>IDR <?= $this->cart->format_number($row->capital_price) ?></td>
+				<td>
+					<?php if ($row->profit == NULL || $row->profit == 0): ?>
+						<span class="label label-sm label-danger">Not setting</span>
+					<?php else: ?>
+						<span class="label label-sm label-success"><?= $row->profit ?> %</span>
+					<?php endif ?>
+				</td>
+				<td>
+					<?php if ($row->profit == NULL || $row->profit == 0): ?>
+						-
+					<?php else: ?>
+						IDR <?= $this->cart->format_number($row->capital_price + (round($row->capital_price * ($row->profit/100)))) ?>
+					<?php endif ?>
+				</td>
+				<td>
+					<?php if ($row->stock != 0): ?>
+					<?= $row->stock ?>
+					<?php else: ?>
+					<span class="btn btn-xs red"><i class="fa fa-warning"></i> <?= $row->stock ?></span>
+					<?php endif ?>
+				</td>
+			</tr>
+			<?php $i++; ?>
+		<?php endforeach ?>
+	</tbody>
+</table>

@@ -1,4 +1,3 @@
-
 <!-- BEGIN PAGE CONTAINER -->
 <div class="page-container">
 	<!-- BEGIN PAGE HEAD -->
@@ -36,7 +35,7 @@
 									<div class="form-group">
 										<label class="col-md-2 control-label">Search</label>
 										<div class="col-md-2">
-											<select class="form-control" name="type">
+											<select class="form-control" name="type" id="type">
 												<option value="1">Sales</option>
 												<option value="2">Receivings</option>
 												<option  value="3">Cancel</option>
@@ -44,9 +43,9 @@
 										</div>
 										<div class="col-md-4">
 											<div class="input-group input-large date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-												<input type="text" class="form-control" name="from">
+												<input type="text" class="form-control" name="from" id="from">
 												<span class="input-group-addon"> to </span>
-												<input type="text" class="form-control" name="to">
+												<input type="text" class="form-control" name="to" id="to">
 											</div>
 										</div>
 										<button type="submit" class="btn green"><i class="glyphicon glyphicon-ok"></i> Submit</button>
@@ -65,7 +64,7 @@
 									</a>
 									<ul class="dropdown-menu pull-right">
 										<li>
-											<a href="javascript:;">
+											<a download="transaction_report.xls" href="#" onclick="return ExcellentExport.excel(this, 'datatable', 'Report');">
 											Export to Excel </a>
 										</li>
 									</ul>
@@ -75,45 +74,45 @@
 						<div class="portlet-body">
 							<div class="table-scrollable">
 								<table class="table table-hover">
-								<thead>
-								<tr>
-									<th>#</th>
-									<th>Supplier/Customer name</th>
-									<th>Transaction Type</th>
-									<th>Transaction Date</th>
-									<th>Action</th>
-								</tr>
-								</thead>
-								<tbody>
-									<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
-									<?php foreach ($records as $row): ?>
-										<?php
-											if ($row->supplier_id != NULL) {
-												$name = $this->m_people->get_by('suppliers', 'supplier_id', $row->supplier_id);
-											}else{
-												$name = $this->m_people->get_by('customers', 'customer_id', $row->customer_id);
-											}
-										?>
-										<tr>
-											<td><?= $i ?></td>
-											<td><?= $name->name ?></td>
-											<td>
-												<?php if ($row->is_cancel == 1){ ?>
-												<span class="label label-sm label-danger">Cancel</span>
-												<?php }elseif ($row->transaction_type == 2) { ?>
-												<span class="label label-sm label-info">Receivings</span>
-												<?php }elseif ($row->transaction_type == 1) { ?>
-												<span class="label label-sm label-success">Sales</span>
-												<?php } ?>
-											</td>
-											<td><?= date('j F Y', strtotime($row->timestamp)); ?></td>
-											<td>
-												<a data-toggle="modal" href="<?= site_url('transactions/details/' . $row->transaction_id) ?>">Details</a>
-											</td>
-										</tr>
-										<?php $i++; ?>
-									<?php endforeach ?>
-								</tbody>
+									<thead>
+									<tr>
+										<th>#</th>
+										<th>Supplier/Customer name</th>
+										<th>Transaction Type</th>
+										<th>Transaction Date</th>
+										<th>Action</th>
+									</tr>
+									</thead>
+									<tbody>
+										<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
+										<?php foreach ($records as $row): ?>
+											<?php
+												if ($row->supplier_id != NULL) {
+													$name = $this->m_people->get_by('suppliers', 'supplier_id', $row->supplier_id);
+												}else{
+													$name = $this->m_people->get_by('customers', 'customer_id', $row->customer_id);
+												}
+											?>
+											<tr>
+												<td><?= $i ?></td>
+												<td><?= $name->name ?></td>
+												<td>
+													<?php if ($row->is_cancel == 1){ ?>
+													<span class="label label-sm label-danger">Cancel</span>
+													<?php }elseif ($row->transaction_type == 2) { ?>
+													<span class="label label-sm label-info">Receivings</span>
+													<?php }elseif ($row->transaction_type == 1) { ?>
+													<span class="label label-sm label-success">Sales</span>
+													<?php } ?>
+												</td>
+												<td><?= date('j F Y', strtotime($row->timestamp)); ?></td>
+												<td>
+													<a data-toggle="modal" href="<?= site_url('transactions/details/' . $row->transaction_id) ?>">Details</a>
+												</td>
+											</tr>
+											<?php $i++; ?>
+										<?php endforeach ?>
+									</tbody>
 								</table>
 							</div>
 						</div>
@@ -128,3 +127,42 @@
 	<!-- END PAGE CONTENT -->
 </div>
 <!-- END PAGE CONTAINER -->
+
+
+<table class="table table-hover" id="datatable" style="display: none;">
+<thead>
+<tr>
+	<th>#</th>
+	<th>Supplier/Customer name</th>
+	<th>Transaction Type</th>
+	<th>Transaction Date</th>
+</tr>
+</thead>
+<tbody>
+	<?php $i = ($this->uri->segment(3)) ? $this->uri->segment(3)+1 : 1; ?>
+	<?php foreach ($excel as $row): ?>
+		<?php
+			if ($row->supplier_id != NULL) {
+				$name = $this->m_people->get_by('suppliers', 'supplier_id', $row->supplier_id);
+			}else{
+				$name = $this->m_people->get_by('customers', 'customer_id', $row->customer_id);
+			}
+		?>
+		<tr>
+			<td><?= $i ?></td>
+			<td><?= $name->name ?></td>
+			<td>
+				<?php if ($row->is_cancel == 1){ ?>
+				<span class="label label-sm label-danger">Cancel</span>
+				<?php }elseif ($row->transaction_type == 2) { ?>
+				<span class="label label-sm label-info">Receivings</span>
+				<?php }elseif ($row->transaction_type == 1) { ?>
+				<span class="label label-sm label-success">Sales</span>
+				<?php } ?>
+			</td>
+			<td><?= date('j F Y', strtotime($row->timestamp)); ?></td>
+		</tr>
+		<?php $i++; ?>
+	<?php endforeach ?>
+</tbody>
+</table>

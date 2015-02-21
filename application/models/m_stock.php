@@ -104,6 +104,20 @@ class M_stock extends CI_Model {
 		return $query->result();
 	}
 
+	public function get_all() {
+		
+		$this->db->select('*, items.name as item_name, units.name as unit_name');
+		$this->db->from('stocks');
+        $this->db->join('items', 'items.item_id = stocks.item_id');
+        $this->db->join('units', 'units.unit_id = stocks.unit_id');
+
+		$this->db->order_by('stock', 'asc');
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
 	public function count_get_list_search($g) {
 		
 		$this->db->select('*');
@@ -141,6 +155,30 @@ class M_stock extends CI_Model {
 			}
 			$this->db->limit($per_page, $page);
 		}
+		$this->db->order_by('stock', 'asc');
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	public function get_all_search($g) {
+		
+		$this->db->select('*, items.name as item_name, units.name as unit_name');
+		$this->db->from('stocks');
+        $this->db->join('items', 'items.item_id = stocks.item_id');
+        $this->db->join('units', 'units.unit_id = stocks.unit_id');
+
+		
+		if ($g['item_id'] != '' && $g['unit_id'] != '') {
+			$this->db->where('stocks.item_id', $g['item_id']);
+			$this->db->where('stocks.unit_id', $g['unit_id']);
+		}elseif ($g['item_id'] != '') {
+			$this->db->where('stocks.item_id', $g['item_id']);
+		}elseif ($g['unit_id'] != '') {
+			$this->db->where('stocks.unit_id', $g['unit_id']);
+		}
+		
 		$this->db->order_by('stock', 'asc');
 
 		$query = $this->db->get();

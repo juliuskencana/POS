@@ -37,6 +37,7 @@ class Stocks extends CI_Controller {
 			
 			$data['items'] = $this->m_item->get_all();
 			$data['units'] = $this->m_unit->get_all();
+			$data['excel'] = $this->m_stock->get_all();
 			
 			$this->load->view('_components/header', $data);
 			$this->load->view('_components/menu_top');
@@ -63,6 +64,7 @@ class Stocks extends CI_Controller {
 
 			$data['items'] = $this->m_item->get_all();
 			$data['units'] = $this->m_unit->get_all();
+			$data['excel'] = $this->m_stock->get_all_search($g);
 
 			$this->load->view('_components/header', $data);
 			$this->load->view('_components/menu_top');
